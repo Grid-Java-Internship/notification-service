@@ -1,20 +1,31 @@
 services:
-  notification-service:
-    image: "not-service:latest"
-    ports:
-      - "8888:8888"
-    container_name: "notif-service"
   mongodb:
     image: "mongodb/mongodb-community-server:latest"
     ports:
       - "27017:27017"
     container_name: "notif-service-mongodb"
+    networks:
+      - global-network
+  notification-service:
+    image: "not-service:latest"
+    ports:
+      - "8888:8888"
+    container_name: "not-service"
+    depends_on:
+      - rabbitmq
+    networks:
+      - global-network
   rabbitmq:
-    image: "rabbitmq:4.0.7"
+    image: "rabbitmq:4.0-management"
     container_name: "rabbitmq"
     ports:
       - "5672:5672"
       - "15672:15672"
-    volumes:
-      - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
-      - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+    networks:
+      - global-network
+
+networks:
+  global-network:
+    name: global-network
+    external: true
+    driver: bridge

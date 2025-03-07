@@ -91,6 +91,12 @@
 			<artifactId>sonar-maven-plugin</artifactId>
 			<version>5.0.0.4389</version>
 		</dependency>
+		<dependency>
+			<groupId>org.mapstruct</groupId>
+			<artifactId>mapstruct</artifactId>
+			<version>1.6.3</version>
+		</dependency>
+
 
 	</dependencies>
 

@@ -1,6 +1,6 @@
 package com.internship.notification_service.service;
 
-import com.internship.dto.NotificationCreateDto;
+import com.internship.notification_service.dto.NotificationCreateDto;
 import com.internship.notification_service.model.Notification;
 
 import java.util.List;
