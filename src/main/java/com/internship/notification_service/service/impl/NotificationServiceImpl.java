@@ -1,6 +1,7 @@
 package com.internship.notification_service.service.impl;
 
 import com.internship.notification_service.dto.NotificationCreateDto;
+import com.internship.notification_service.dto.NotificationMessageDto;
 import com.internship.notification_service.mapper.NotificationMapper;
 import com.internship.notification_service.model.Notification;
 import com.internship.notification_service.repository.NotificationRepository;
@@ -11,11 +12,12 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class NotificationServiceImpl implements NotificationService {
 
-    private NotificationRepository notificationRepository;
+    private final NotificationRepository notificationRepository;
 
-    private NotificationMapper notificationMapper;
+    private final NotificationMapper notificationMapper;
 
     @Override
     public void addNotification(NotificationCreateDto notificationCreateDto) {
@@ -25,8 +27,9 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public List<Notification> getAllNotifications(Long userId) {
+    public List<NotificationMessageDto> getAllNotifications(Long userId) {
 
-        return notificationRepository.findAllByUserId(userId);
+        return notificationRepository.findAllByUserId(userId)
+                .stream().map(notificationMapper::toDto).toList();
     }
 }

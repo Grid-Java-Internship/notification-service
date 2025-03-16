@@ -24,7 +24,7 @@ RUN addgroup --system --gid 1001 spring && \
 
 WORKDIR /home/spring/app
 
-EXPOSE 8087 587
+EXPOSE 8087
 
 COPY env.properties .
 
