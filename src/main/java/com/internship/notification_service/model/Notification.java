@@ -20,13 +20,13 @@ public class Notification {
     @Id
     private UUID notificationId;
 
-    private String message;
+    private String content;
 
     private String title;
 
     private Long userId;
 
-    private String receiverEmail;
+    private String emailTo;
 
     private LocalDateTime createdAt;
 

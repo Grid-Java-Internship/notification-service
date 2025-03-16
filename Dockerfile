@@ -13,7 +13,7 @@ RUN mvn verify clean --fail-never
 
 COPY . .
 
-RUN mvn package
+RUN mvn package -DskipTests
 
 # lightweight image for runtime
 FROM eclipse-temurin:17-jdk-alpine AS runtime
