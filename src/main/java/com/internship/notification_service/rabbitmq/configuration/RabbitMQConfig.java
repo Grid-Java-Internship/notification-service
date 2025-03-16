@@ -48,6 +48,22 @@ public class RabbitMQConfig {
     }
 
     @Bean
+    public Binding bindingChangePassword(Queue changePasswordQueue, TopicExchange exchange)
+    {
+        return BindingBuilder.bind(changePasswordQueue)
+                .to(exchange)
+                .with("change.password");
+    }
+
+    @Bean
+    public Binding bindingActivateAccount(Queue activateAccountQueue, TopicExchange exchange)
+    {
+        return BindingBuilder.bind(activateAccountQueue)
+                .to(exchange)
+                .with("activate.account");
+    }
+
+    @Bean
     public MessageConverter jsonMessageConverter() {
         return new Jackson2JsonMessageConverter();
     }
@@ -61,7 +77,7 @@ public class RabbitMQConfig {
     }
 
     @Bean
-    public AmqpTemplate amqpTemplate(ConnectionFactory connectionFactory) { // IntelliJ bug. Bean is there
+    public AmqpTemplate amqpTemplate(ConnectionFactory connectionFactory) {
         RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
         rabbitTemplate.setMessageConverter(jsonMessageConverter());
         return rabbitTemplate;

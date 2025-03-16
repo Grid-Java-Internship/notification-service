@@ -7,6 +7,7 @@ import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -17,12 +18,16 @@ import java.util.UUID;
 public class Notification {
 
     @Id
-    private UUID notification_id;
+    private UUID notificationId;
 
     private String message;
 
     private String title;
 
+    private Long userId;
+
     private String receiverEmail;
+
+    private LocalDateTime createdAt;
 
 }

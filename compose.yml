@@ -7,12 +7,15 @@ services:
     networks:
       - global-network
   notification-service:
-    image: "not-service:latest"
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
-      - "8888:8888"
+      - "8087:8087"
     container_name: "not-service"
     depends_on:
       - rabbitmq
+      - mailsender
     networks:
       - global-network
   rabbitmq:
@@ -23,6 +26,16 @@ services:
       - "15672:15672"
     networks:
       - global-network
+  mailsender:
+    image: "axllent/mailpit"
+    container_name: "mailpit"
+    restart: unless-stopped
+    ports:
+      - "8025:8025"
+      - "1025:1025"
+    networks:
+      - global-network
+
 
 networks:
   global-network:

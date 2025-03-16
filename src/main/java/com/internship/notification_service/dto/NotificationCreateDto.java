@@ -1,4 +1,11 @@
 package com.internship.notification_service.dto;
 
-public class NotificationCreateDto {
+public record NotificationCreateDto(
+
+        String email,
+
+        String title,
+
+        String text
+){
 }

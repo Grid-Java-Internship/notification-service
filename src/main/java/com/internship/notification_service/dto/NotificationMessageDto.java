@@ -13,4 +13,5 @@ public class NotificationMessageDto {
 
     private String title;
 
+    private Long userId;
 }

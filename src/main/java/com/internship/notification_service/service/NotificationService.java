@@ -9,6 +9,6 @@ public interface NotificationService {
 
     void addNotification(NotificationCreateDto notificationCreateDto);
 
-    List<Notification> getAllNotifications();
+    List<Notification> getAllNotifications(Long userId);
 
 }
