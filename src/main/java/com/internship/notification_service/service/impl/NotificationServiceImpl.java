@@ -19,6 +19,12 @@ public class NotificationServiceImpl implements NotificationService {
 
     private final NotificationMapper notificationMapper;
 
+    /**
+     * Saves a new notification to the database based on the given
+     * {@link NotificationCreateDto}.
+     *
+     * @param notificationCreateDto the notification to save
+     */
     @Override
     public void addNotification(NotificationCreateDto notificationCreateDto) {
         Notification notification = notificationMapper.toEntity(notificationCreateDto);
@@ -26,6 +32,13 @@ public class NotificationServiceImpl implements NotificationService {
         notificationRepository.save(notification);
     }
 
+    /**
+     * Finds all notifications for given user id and maps them to
+     * {@link NotificationMessageDto} using {@link NotificationMapper}.
+     *
+     * @param userId the id of the user to find notifications for
+     * @return a list of {@link NotificationMessageDto}
+     */
     @Override
     public List<NotificationMessageDto> getAllNotifications(Long userId) {
 
