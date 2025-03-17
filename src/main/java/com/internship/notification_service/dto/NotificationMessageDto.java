@@ -13,7 +13,7 @@ public class NotificationMessageDto {
 
     private String content;
 
-    private String receiverEmail;
+    private String emailTo;
 
     private String title;
 

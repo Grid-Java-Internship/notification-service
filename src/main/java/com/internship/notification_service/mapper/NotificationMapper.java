@@ -14,10 +14,8 @@ import org.mapstruct.ReportingPolicy;
         unmappedTargetPolicy = ReportingPolicy.IGNORE
 )
 public interface NotificationMapper {
-    @Mapping(source = "emailTo", target = "receiverEmail")
-    NotificationMessageDto toDto(Notification notification);
 
-    Notification toEntity(NotificationCreateDto notificationCreateDto);
+    NotificationMessageDto toDto(Notification notification);
 
     Notification toEntity(Message message);
 }

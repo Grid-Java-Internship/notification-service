@@ -31,7 +31,7 @@ public class EmailServiceImpl implements EmailService {
 
         mailSender.send(message);
 
-        log.info("SENT THE MESSAGE TO THE EMAIL: " + to);
+        log.info("SENT THE MESSAGE TO THE EMAIL: {}", to);
 
         return "SUCCESS";
     }

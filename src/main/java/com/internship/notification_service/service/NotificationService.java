@@ -8,8 +8,6 @@ import java.util.List;
 
 public interface NotificationService {
 
-    void addNotification(NotificationCreateDto notificationCreateDto);
-
     List<NotificationMessageDto> getAllNotifications(Long userId);
 
 }
