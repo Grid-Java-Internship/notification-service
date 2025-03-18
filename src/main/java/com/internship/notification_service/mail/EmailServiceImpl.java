@@ -15,10 +15,10 @@ public class EmailServiceImpl implements EmailService {
     private final JavaMailSender mailSender;
 
     @Value("${MAIL_USERNAME}")
-    private String username;
+    private final String username;
 
     @Value("${MAIL_PASS}")
-    private String password;
+    private final String password;
 
     @Override
     public String sendSimpleMail(String to, String subject, String content) {

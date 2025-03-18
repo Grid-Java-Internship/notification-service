@@ -34,7 +34,7 @@ public class NotificationServiceImpl implements NotificationService {
         if(notifications.isEmpty())
             throw new NoNotificationsOnResource("No notifications found for user with id: " + userId);
 
-        return notificationRepository.findAllByUserId(userId)
+        return notifications
                 .stream().map(notificationMapper::toDto).toList();
     }
 }
