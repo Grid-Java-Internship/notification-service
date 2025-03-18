@@ -1,28 +1,29 @@
 package com.internship.notification_service.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
+@Data
 @Document(collection = "notifications")
 public class Notification {
 
     @Id
-    private UUID notification_id;
+    private UUID notificationId;
 
-    private String message;
+    private String content;
 
     private String title;
 
-    private String receiverEmail;
+    private Long userId;
+
+    private String emailTo;
+
+    private LocalDateTime createdAt;
 
 }

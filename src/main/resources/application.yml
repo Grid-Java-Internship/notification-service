@@ -5,7 +5,7 @@ spring:
     name: ${SPRING_APP_NAME:notification-service}
   data:
     mongodb:
-      host: localhost
+      host: mongodb
       port: 27017
       database: notifications
   rabbitmq:
@@ -13,8 +13,15 @@ spring:
     port: 5672
     username: guest
     password: guest
+  mail:
+    host: mailsender
+    port: 1025
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASS}
+  config:
+    import: file:env.properties
 server:
-  port: 8888
+  port: 8087
 logging:
   pattern:
     console: ${LOG_PATTERN_CONSOLE:%green(%d{HH:mm:ss.SSS}) %blue(%-5level) %red([%thread]) %yellow(%logger{15}) - %msg%n}
@@ -23,3 +30,11 @@ management:
     web:
       exposure:
         include=*:
+
+configs:
+  rabbitmq:
+    queues:
+      forgotPassword: "forgotPasswordQueue"
+      confirmEmail: "confirmEmailQueue"
+      resetPassword: "resetPasswordQueue"
+      confirmRegistration: "confirmRegistrationQueue"

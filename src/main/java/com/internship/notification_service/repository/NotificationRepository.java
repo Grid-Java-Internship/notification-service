@@ -10,4 +10,6 @@ import java.util.List;
 public interface NotificationRepository extends MongoRepository<Notification, Long> {
 
     List<Notification> findAll();
+
+    List<Notification> findAllByUserId(Long userId);
 }

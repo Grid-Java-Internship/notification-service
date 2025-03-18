@@ -1,6 +1,7 @@
 package com.internship.notification_service.service.impl;
 
-import com.internship.notification_service.dto.NotificationCreateDto;
+import com.internship.notification_service.dto.NotificationMessageDto;
+import com.internship.notification_service.exception.NoNotificationsOnResource;
 import com.internship.notification_service.mapper.NotificationMapper;
 import com.internship.notification_service.model.Notification;
 import com.internship.notification_service.repository.NotificationRepository;
@@ -11,21 +12,29 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class NotificationServiceImpl implements NotificationService {
 
-    private NotificationRepository notificationRepository;
+    private final NotificationRepository notificationRepository;
 
-    private NotificationMapper notificationMapper;
+    private final NotificationMapper notificationMapper;
 
+    /**
+     * Finds all notifications for given user id and maps them to
+     * {@link NotificationMessageDto} using {@link NotificationMapper}.
+     *
+     * @param userId the id of the user to find notifications for
+     * @return a list of {@link NotificationMessageDto}
+     */
     @Override
-    public void addNotification(NotificationCreateDto notificationCreateDto) {
-        Notification notification = notificationMapper.toEntity(notificationCreateDto);
+    public List<NotificationMessageDto> getAllNotifications(Long userId) {
 
-        notificationRepository.save(notification);
-    }
+        List<Notification> notifications = notificationRepository.findAllByUserId(userId);
 
-    @Override
-    public List<Notification> getAllNotifications() {
-        return notificationRepository.findAll();
+        if(notifications.isEmpty())
+            throw new NoNotificationsOnResource("No notifications found for user with id: " + userId);
+
+        return notifications
+                .stream().map(notificationMapper::toDto).toList();
     }
 }
