@@ -19,6 +19,8 @@ public class RabbitMQConfig {
 
     private static final String AA_NAME = "activateAccount";
 
+    private static final String CANCEL_RESERVATION_QNAME = "cancelReservationQueue";
+
     @Bean
     Queue forgotPasswordQueue() {
         return new Queue(FP_QNAME,false);
@@ -33,6 +35,9 @@ public class RabbitMQConfig {
     Queue activateAccountQueue() {
         return new Queue(AA_NAME,false);
     }
+
+    @Bean
+    Queue cancelReservationQueue() {return new Queue(CANCEL_RESERVATION_QNAME,false);}
 
     @Bean
     TopicExchange exchange() {
@@ -61,6 +66,14 @@ public class RabbitMQConfig {
         return BindingBuilder.bind(activateAccountQueue)
                 .to(exchange)
                 .with("activate.account");
+    }
+
+    @Bean
+    public Binding bindingCancelReservation(Queue cancelReservationQueue, TopicExchange exchange)
+    {
+        return BindingBuilder.bind(cancelReservationQueue)
+                .to(exchange)
+                .with("cancel.reservation");
     }
 
     @Bean
