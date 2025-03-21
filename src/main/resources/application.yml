@@ -38,4 +38,4 @@ configs:
       confirmEmail: "confirmEmailQueue"
       resetPassword: "resetPasswordQueue"
       confirmRegistration: "confirmRegistrationQueue"
-      cancelReservation : "cancelReservationQueue"
+      cancelReservation: "cancelReservationQueue"
