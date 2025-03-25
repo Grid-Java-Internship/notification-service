@@ -21,6 +21,10 @@ public class RabbitMQConfig {
 
     private static final String CANCEL_RESERVATION_QNAME = "cancelReservationQueue";
 
+    private static final String DELETE_PENDING_USER_QUEUE = "deletePendingUserQueue";
+
+    private static final String DELETE_PENDING_BALANCE_QUEUE = "deletePendingBalanceQueue";
+
     @Bean
     Queue forgotPasswordQueue() {
         return new Queue(FP_QNAME,false);
@@ -38,6 +42,16 @@ public class RabbitMQConfig {
 
     @Bean
     Queue cancelReservationQueue() {return new Queue(CANCEL_RESERVATION_QNAME,false);}
+
+    @Bean
+    Queue deletePendingUserQueue() {
+        return new Queue(DELETE_PENDING_USER_QUEUE, false);
+    }
+
+    @Bean
+    Queue deletePendingBalanceQueue() {
+        return new Queue(DELETE_PENDING_BALANCE_QUEUE, false);
+    }
 
     @Bean
     TopicExchange exchange() {
@@ -74,6 +88,20 @@ public class RabbitMQConfig {
         return BindingBuilder.bind(cancelReservationQueue)
                 .to(exchange)
                 .with("cancel.reservation");
+    }
+
+    @Bean
+    public Binding bindingDeletePendingUser(Queue deletePendingUserQueue, TopicExchange exchange) {
+        return BindingBuilder.bind(deletePendingUserQueue)
+                .to(exchange)
+                .with("delete.pending.user");
+    }
+
+    @Bean
+    public Binding bindingDeletePendingBalance(Queue deletePendingBalanceQueue, TopicExchange exchange) {
+        return BindingBuilder.bind(deletePendingBalanceQueue)
+                .to(exchange)
+                .with("delete.pending.balance");
     }
 
     @Bean
