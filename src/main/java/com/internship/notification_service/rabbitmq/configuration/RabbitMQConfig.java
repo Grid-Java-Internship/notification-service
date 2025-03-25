@@ -21,6 +21,8 @@ public class RabbitMQConfig {
 
     private static final String CANCEL_RESERVATION_QNAME = "cancelReservationQueue";
 
+    private static final String SM_NAME = "sendMail";
+
     @Bean
     Queue forgotPasswordQueue() {
         return new Queue(FP_QNAME,false);
@@ -34,6 +36,11 @@ public class RabbitMQConfig {
     @Bean
     Queue activateAccountQueue() {
         return new Queue(AA_NAME,false);
+    }
+
+    @Bean
+    Queue sendMessageQueue() {
+        return new Queue(SM_NAME,false);
     }
 
     @Bean
@@ -74,6 +81,14 @@ public class RabbitMQConfig {
         return BindingBuilder.bind(cancelReservationQueue)
                 .to(exchange)
                 .with("cancel.reservation");
+    }
+
+    @Bean
+    public Binding bindingSendMessage(Queue sendMessageQueue, TopicExchange exchange)
+    {
+        return BindingBuilder.bind(sendMessageQueue)
+                .to(exchange)
+                .with("send.message");
     }
 
     @Bean
