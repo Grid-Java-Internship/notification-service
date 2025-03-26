@@ -1,5 +1,6 @@
 package com.internship.notification_service.rabbitmq.consumer;
 
+import com.internship.notification_service.constants.Constants;
 import com.internship.notification_service.rabbitmq.communication.Message;
 import com.internship.notification_service.rabbitmq.communication.NotificationProcessor;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +24,7 @@ public class CancelReservationConsumer {
      *
      * @param message the message received from the queue
      */
-    @RabbitListener(queues = "${configs.rabbitmq.queues.cancelReservation}")
+    @RabbitListener(queues = Constants.CANCEL_RESERVATION_QNAME)
     public void consumeMessage(Message message) {
         notificationProcessor.saveNotification(message);
 

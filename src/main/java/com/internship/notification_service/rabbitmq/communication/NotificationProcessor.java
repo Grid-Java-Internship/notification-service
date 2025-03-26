@@ -8,9 +8,11 @@ import com.internship.notification_service.repository.FailedNotificationReposito
 import com.internship.notification_service.repository.NotificationRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.retry.RetryContext;
 import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.Recover;
 import org.springframework.retry.annotation.Retryable;
+import org.springframework.retry.support.RetrySynchronizationManager;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -43,7 +45,10 @@ public class NotificationProcessor {
             retryFor = RuntimeException.class
     )
     public void processNotification(Message message, String logMessage) {
-        log.info(logMessage);
+        RetryContext retryContext = RetrySynchronizationManager.getContext();
+        int retryCount = retryContext != null ? retryContext.getRetryCount() : 0;
+        log.info("{} (Retry attempt: {})", logMessage, retryCount);
+
         emailService.sendSimpleMail(message.getEmailTo(),
                 message.getTitle(),
                 message.getContent());
@@ -64,10 +69,9 @@ public class NotificationProcessor {
     }
 
 
-    @Scheduled(fixedRate = 50000)
+    @Scheduled(fixedRateString = "${scheduler.failed_notifications.time}")
     public void retryFailedNotifications() {
         List<FailedNotification> failedNotifications = failedNotificationRepository.findAll();
-
         for(FailedNotification failedNotification : failedNotifications) {
             log.info("Try to send failed notification");
             try {

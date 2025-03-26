@@ -13,6 +13,8 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.retry.RetryContext;
+import org.springframework.retry.support.RetrySynchronizationManager;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -115,6 +117,10 @@ class NotificationProcessorTest {
 
     @Test
     void processNotificationWhenEmailServiceSucceeds() {
+        RetryContext mockContext = mock(RetryContext.class);
+        when(mockContext.getRetryCount()).thenReturn(1);
+
+        RetrySynchronizationManager.register(mockContext);
 
         when(emailService.sendSimpleMail(message.getEmailTo(),
                 message.getTitle(),
@@ -126,6 +132,8 @@ class NotificationProcessorTest {
                 message.getEmailTo(),
                 message.getTitle(),
                 message.getContent());
+
+        RetrySynchronizationManager.clear();
     }
 
     @Test
