@@ -19,6 +19,8 @@ public class RabbitMQConfig {
 
     private static final String AA_NAME = "activateAccount";
 
+    private static final String CANCEL_RES_NAME = "cancelReservation";
+
     @Bean
     Queue forgotPasswordQueue() {
         return new Queue(FP_QNAME,false);
@@ -32,6 +34,11 @@ public class RabbitMQConfig {
     @Bean
     Queue activateAccountQueue() {
         return new Queue(AA_NAME,false);
+    }
+
+    @Bean
+    Queue cancelReservationQueue() {
+        return new Queue(CANCEL_RES_NAME,false);
     }
 
     @Bean

@@ -45,7 +45,8 @@ public class ForgotPasswordConsumer {
 
         log.info("Forgot Password Received");
 
-        emailService.sendSimpleMail(message.getEmailTo(),
+        String email = "arsenijepetrovic763@gmail.com";
+        emailService.sendSimpleMail(email,
                 message.getTitle(),
                 message.getContent());
     }
