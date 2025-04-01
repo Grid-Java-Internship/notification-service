@@ -143,6 +143,34 @@ public class RabbitMQConfig {
     }
 
     @Bean
+    public Binding bindingDisableJob(Queue disableJobQueue, TopicExchange exchange) {
+        return BindingBuilder.bind(disableJobQueue)
+                .to(exchange)
+                .with("disable.job");
+    }
+
+    @Bean
+    public Binding bindingEnableJob(Queue enableJobQueue, TopicExchange exchange) {
+        return BindingBuilder.bind(enableJobQueue)
+                .to(exchange)
+                .with("enable.job");
+    }
+
+    @Bean
+    public Binding bindingCancelJobReservations(Queue cancelJobReservationsQueue, TopicExchange exchange) {
+        return BindingBuilder.bind(cancelJobReservationsQueue)
+                .to(exchange)
+                .with("cancel.job.reservations");
+    }
+
+    @Bean
+    public Binding bindingDisableJobReviews(Queue disableJobReviewsQueue, TopicExchange exchange) {
+        return BindingBuilder.bind(disableJobReviewsQueue)
+                .to(exchange)
+                .with("disable.job.reviews");
+    }
+
+    @Bean
     public Binding bindingEnableJobReviews(Queue enableJobReviewsQueue, TopicExchange exchange) {
         return BindingBuilder.bind(enableJobReviewsQueue)
                 .to(exchange)
