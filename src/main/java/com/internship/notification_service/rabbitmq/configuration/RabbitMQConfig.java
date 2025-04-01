@@ -24,8 +24,6 @@ public class RabbitMQConfig {
     @Value("${spring.rabbitmq.password}")
     private String password;
 
-    private static final String SM_NAME = "sendMail";
-
     @Bean
     Queue forgotPasswordQueue() {
         return new Queue(FP_QNAME,false);

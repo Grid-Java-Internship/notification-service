@@ -30,4 +30,6 @@ public class Constants {
 
     public static final String ENABLE_JOB_REVIEWS_QUEUE = "enableJobReviewsQueue";
 
+    public static final String SM_NAME = "sendMail";
+
 }
