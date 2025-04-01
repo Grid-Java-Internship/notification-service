@@ -6,18 +6,23 @@ import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import static com.internship.notification_service.constants.Constants.*;
+
 @Configuration
 public class RabbitMQConfig {
-    private static final String FP_EXCHANGE_NAME = "notifications";
 
-    private static final String FP_QNAME = "forgotPasswordQueue";
+    @Value("${spring.rabbitmq.host}")
+    private String rabbitmqHost;
 
-    private static final String CP_QNAME = "changePassword";
+    @Value("${spring.rabbitmq.username}")
+    private String username;
 
-    private static final String AA_NAME = "activateAccount";
+    @Value("${spring.rabbitmq.password}")
+    private String password;
 
     @Bean
     Queue forgotPasswordQueue() {
@@ -32,6 +37,56 @@ public class RabbitMQConfig {
     @Bean
     Queue activateAccountQueue() {
         return new Queue(AA_NAME,false);
+    }
+
+    @Bean
+    Queue sendMessageQueue() {
+        return new Queue(SM_NAME,false);
+    }
+
+    @Bean
+    Queue cancelReservationQueue() {
+        return new Queue(CANCEL_RESERVATION_QNAME,false);
+    }
+
+    @Bean
+    Queue deletePendingUserQueue() {
+        return new Queue(DELETE_PENDING_USER_QUEUE, false);
+    }
+
+    @Bean
+    Queue deletePendingBalanceQueue() {
+        return new Queue(DELETE_PENDING_BALANCE_QUEUE, false);
+    }
+
+    @Bean
+    Queue verifyEmailQueue() {
+        return new Queue(VERIFY_EMAIL_QUEUE,false);
+    }
+
+    @Bean
+    Queue disableJobQueue() {
+        return new Queue(DISABLE_JOB_QUEUE, false);
+    }
+
+    @Bean
+    Queue enableJobQueue() {
+        return new Queue(ENABLE_JOB_QUEUE, false);
+    }
+
+    @Bean
+    Queue cancelJobReservationsQueue() {
+        return new Queue(CANCEL_JOB_RESERVATIONS_QUEUE, false);
+    }
+
+    @Bean
+    Queue disableJobReviewsQueue() {
+        return new Queue(DISABLE_JOB_REVIEWS_QUEUE, false);
+    }
+
+    @Bean
+    Queue enableJobReviewsQueue() {
+        return new Queue(ENABLE_JOB_REVIEWS_QUEUE, false);
     }
 
     @Bean
@@ -64,15 +119,87 @@ public class RabbitMQConfig {
     }
 
     @Bean
+    public Binding bindingCancelReservation(Queue cancelReservationQueue, TopicExchange exchange)
+    {
+        return BindingBuilder.bind(cancelReservationQueue)
+                .to(exchange)
+                .with("cancel.reservation");
+    }
+
+    @Bean
+    public Binding bindingDeletePendingUser(Queue deletePendingUserQueue, TopicExchange exchange) {
+        return BindingBuilder.bind(deletePendingUserQueue)
+                .to(exchange)
+                .with("delete.pending.user");
+    }
+
+    @Bean
+    public Binding bindingDeletePendingBalance(Queue deletePendingBalanceQueue, TopicExchange exchange) {
+        return BindingBuilder.bind(deletePendingBalanceQueue)
+                .to(exchange)
+                .with("delete.pending.balance");
+    }
+
+    @Bean
+    public Binding bindingVerifyEmail(Queue verifyEmailQueue, TopicExchange exchange) {
+        return BindingBuilder.bind(verifyEmailQueue)
+                .to(exchange)
+                .with("verify.email");
+    }
+
+    @Bean
+    public Binding bindingDisableJob(Queue disableJobQueue, TopicExchange exchange) {
+        return BindingBuilder.bind(disableJobQueue)
+                .to(exchange)
+                .with("disable.job");
+    }
+
+    @Bean
+    public Binding bindingEnableJob(Queue enableJobQueue, TopicExchange exchange) {
+        return BindingBuilder.bind(enableJobQueue)
+                .to(exchange)
+                .with("enable.job");
+    }
+
+    @Bean
+    public Binding bindingCancelJobReservations(Queue cancelJobReservationsQueue, TopicExchange exchange) {
+        return BindingBuilder.bind(cancelJobReservationsQueue)
+                .to(exchange)
+                .with("cancel.job.reservations");
+    }
+
+    @Bean
+    public Binding bindingDisableJobReviews(Queue disableJobReviewsQueue, TopicExchange exchange) {
+        return BindingBuilder.bind(disableJobReviewsQueue)
+                .to(exchange)
+                .with("disable.job.reviews");
+    }
+
+    @Bean
+    public Binding bindingEnableJobReviews(Queue enableJobReviewsQueue, TopicExchange exchange) {
+        return BindingBuilder.bind(enableJobReviewsQueue)
+                .to(exchange)
+                .with("enable.job.reviews");
+    }
+
+    @Bean
+    public Binding bindingSendMessage(Queue sendMessageQueue, TopicExchange exchange)
+    {
+        return BindingBuilder.bind(sendMessageQueue)
+                .to(exchange)
+                .with("send.message");
+    }
+
+    @Bean
     public MessageConverter jsonMessageConverter() {
         return new Jackson2JsonMessageConverter();
     }
 
     @Bean
     public ConnectionFactory connectionFactory() {
-        CachingConnectionFactory connectionFactory = new CachingConnectionFactory("rabbitmq");
-        connectionFactory.setUsername("guest");
-        connectionFactory.setPassword("guest");
+        CachingConnectionFactory connectionFactory = new CachingConnectionFactory(rabbitmqHost);
+        connectionFactory.setUsername(username);
+        connectionFactory.setPassword(password);
         return connectionFactory;
     }
 

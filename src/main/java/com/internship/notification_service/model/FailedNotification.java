@@ -1,6 +1,9 @@
 package com.internship.notification_service.model;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -11,8 +14,8 @@ import java.util.UUID;
 @NoArgsConstructor
 @Data
 @Builder
-@Document(collection = "notifications")
-public class Notification {
+@Document(collection = "failed_notifications")
+public class FailedNotification {
 
     @Id
     private UUID notificationId;
@@ -26,4 +29,6 @@ public class Notification {
     private String emailTo;
 
     private LocalDateTime createdAt;
+
+    private String reason;
 }

@@ -31,10 +31,6 @@ management:
       exposure:
         include=*:
 
-configs:
-  rabbitmq:
-    queues:
-      forgotPassword: "forgotPasswordQueue"
-      confirmEmail: "confirmEmailQueue"
-      resetPassword: "resetPasswordQueue"
-      confirmRegistration: "confirmRegistrationQueue"
+scheduler:
+  failed_notifications:
+    time: 60000
