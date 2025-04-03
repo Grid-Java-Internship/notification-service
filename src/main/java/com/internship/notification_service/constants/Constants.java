@@ -32,4 +32,14 @@ public class Constants {
 
     public static final String SM_NAME = "sendMail";
 
+    public static final String NEW_RESERVATION_QUEUE = "newReservationQueue";
+
+    public static final String RESERVATION_EDITED_QUEUE = "reservationEditedQueue";
+
+    public static final String RESERVATION_ACCEPTED_QUEUE = "reservationAcceptedQueue";
+
+    public static final String RESERVATION_REJECTED_QUEUE = "reservationRejectedQueue";
+
+    public static final String RESERVATION_CANCELLED_QUEUE = "reservationCancelledQueue";
+
 }

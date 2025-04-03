@@ -95,6 +95,31 @@ public class RabbitMQConfig {
     }
 
     @Bean
+    Queue newReservationQueue() {
+        return new Queue(NEW_RESERVATION_QUEUE, false);
+    }
+
+    @Bean
+    Queue reservationEditedQueue() {
+        return new Queue(RESERVATION_EDITED_QUEUE, false);
+    }
+
+    @Bean
+    Queue reservationAcceptedQueue() {
+        return new Queue(RESERVATION_ACCEPTED_QUEUE, false);
+    }
+
+    @Bean
+    Queue reservationRejectedQueue() {
+        return new Queue(RESERVATION_REJECTED_QUEUE, false);
+    }
+
+    @Bean
+    Queue reservationCanceledQueue() {
+        return new Queue(RESERVATION_CANCELLED_QUEUE, false);
+    }
+
+    @Bean
     public Binding binding(Queue forgotPasswordQueue, TopicExchange exchange)
     {
         return BindingBuilder.bind(forgotPasswordQueue)
@@ -188,6 +213,41 @@ public class RabbitMQConfig {
         return BindingBuilder.bind(sendMessageQueue)
                 .to(exchange)
                 .with("send.message");
+    }
+
+    @Bean
+    public Binding bindingNewReservation(Queue newReservationQueue, TopicExchange exchange) {
+        return BindingBuilder.bind(newReservationQueue)
+                .to(exchange)
+                .with("new.reservation");
+    }
+
+    @Bean
+    public Binding bindingReservationEdited(Queue reservationEditedQueue, TopicExchange exchange) {
+        return BindingBuilder.bind(reservationEditedQueue)
+                .to(exchange)
+                .with("reservation.edited");
+    }
+
+    @Bean
+    public Binding bindingReservationAccepted(Queue reservationAcceptedQueue, TopicExchange exchange) {
+        return BindingBuilder.bind(reservationAcceptedQueue)
+                .to(exchange)
+                .with("reservation.accepted");
+    }
+
+    @Bean
+    public Binding bindingReservationRejected(Queue reservationRejectedQueue, TopicExchange exchange) {
+        return BindingBuilder.bind(reservationRejectedQueue)
+                .to(exchange)
+                .with("reservation.rejected");
+    }
+
+    @Bean
+    public Binding bindingReservationCanceled(Queue reservationCanceledQueue, TopicExchange exchange) {
+        return BindingBuilder.bind(reservationCanceledQueue)
+                .to(exchange)
+                .with("reservation.canceled");
     }
 
     @Bean
