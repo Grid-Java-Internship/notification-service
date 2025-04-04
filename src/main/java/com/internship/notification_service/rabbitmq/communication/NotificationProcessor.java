@@ -83,6 +83,7 @@ public class NotificationProcessor {
                 failedNotificationRepository.delete(failedNotification);
                 log.info("Successfully sent failed notification");
             }catch (Exception e) {
+                e.printStackTrace();
                 log.error("Scheduler failed to send failed notification.");
             }
         }

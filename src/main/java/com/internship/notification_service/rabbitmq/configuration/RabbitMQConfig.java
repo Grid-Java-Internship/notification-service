@@ -115,11 +115,6 @@ public class RabbitMQConfig {
     }
 
     @Bean
-    Queue reservationCanceledQueue() {
-        return new Queue(RESERVATION_CANCELLED_QUEUE, false);
-    }
-
-    @Bean
     public Binding binding(Queue forgotPasswordQueue, TopicExchange exchange)
     {
         return BindingBuilder.bind(forgotPasswordQueue)
@@ -241,13 +236,6 @@ public class RabbitMQConfig {
         return BindingBuilder.bind(reservationRejectedQueue)
                 .to(exchange)
                 .with("reservation.rejected");
-    }
-
-    @Bean
-    public Binding bindingReservationCanceled(Queue reservationCanceledQueue, TopicExchange exchange) {
-        return BindingBuilder.bind(reservationCanceledQueue)
-                .to(exchange)
-                .with("reservation.canceled");
     }
 
     @Bean

@@ -40,6 +40,4 @@ public class Constants {
 
     public static final String RESERVATION_REJECTED_QUEUE = "reservationRejectedQueue";
 
-    public static final String RESERVATION_CANCELLED_QUEUE = "reservationCancelledQueue";
-
 }
