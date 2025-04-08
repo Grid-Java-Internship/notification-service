@@ -15,7 +15,7 @@ public class SendMessageConsumer {
     private final NotificationProcessor notificationProcessor;
 
 
-    @RabbitListener(queues = "sendMail")
+    @RabbitListener(queues = "${spring.rabbitmq.queues.sm-qname}")
     public void consumeMessage(Message message) {
         notificationProcessor.saveNotification(message);
 

@@ -1,117 +1,112 @@
 package com.internship.notification_service.rabbitmq.configuration;
 
+import com.internship.notification_service.rabbitmq.properties.RabbitMQProperties;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import static com.internship.notification_service.constants.Constants.*;
-
+@Setter
 @Configuration
+@RequiredArgsConstructor
 public class RabbitMQConfig {
 
-    @Value("${spring.rabbitmq.host}")
-    private String rabbitmqHost;
-
-    @Value("${spring.rabbitmq.username}")
-    private String username;
-
-    @Value("${spring.rabbitmq.password}")
-    private String password;
+    private final RabbitMQProperties properties;
 
     @Bean
     Queue forgotPasswordQueue() {
-        return new Queue(FP_QNAME,false);
+        return new Queue(properties.getQueues().getFpQname(), false);
     }
 
     @Bean
     Queue changePasswordQueue() {
-        return new Queue(CP_QNAME,false);
+        return new Queue(properties.getQueues().getCpQname(), false);
     }
 
     @Bean
     Queue activateAccountQueue() {
-        return new Queue(AA_NAME,false);
+        return new Queue(properties.getQueues().getAaQname(), false);
     }
 
     @Bean
     Queue sendMessageQueue() {
-        return new Queue(SM_NAME,false);
+        return new Queue(properties.getQueues().getSmQname(), false);
     }
 
     @Bean
     Queue cancelReservationQueue() {
-        return new Queue(CANCEL_RESERVATION_QNAME,false);
+        return new Queue(properties.getQueues().getCancelReservationQname(), false);
     }
 
     @Bean
     Queue deletePendingUserQueue() {
-        return new Queue(DELETE_PENDING_USER_QUEUE, false);
+        return new Queue(properties.getQueues().getDeletePendingUserQueue(), false);
     }
 
     @Bean
     Queue deletePendingBalanceQueue() {
-        return new Queue(DELETE_PENDING_BALANCE_QUEUE, false);
+        return new Queue(properties.getQueues().getDeletePendingBalanceQueue(), false);
     }
 
     @Bean
     Queue verifyEmailQueue() {
-        return new Queue(VERIFY_EMAIL_QUEUE,false);
+        return new Queue(properties.getQueues().getVerifyEmailQueue(), false);
     }
 
     @Bean
     Queue disableJobQueue() {
-        return new Queue(DISABLE_JOB_QUEUE, false);
+        return new Queue(properties.getQueues().getDisableJobQueue(), false);
     }
 
     @Bean
     Queue enableJobQueue() {
-        return new Queue(ENABLE_JOB_QUEUE, false);
+        return new Queue(properties.getQueues().getEnableJobQueue(), false);
     }
 
     @Bean
     Queue cancelJobReservationsQueue() {
-        return new Queue(CANCEL_JOB_RESERVATIONS_QUEUE, false);
+        return new Queue(properties.getQueues().getCancelJobReservationsQueue(), false);
     }
 
     @Bean
     Queue disableJobReviewsQueue() {
-        return new Queue(DISABLE_JOB_REVIEWS_QUEUE, false);
+        return new Queue(properties.getQueues().getDisableJobReviewsQueue(), false);
     }
 
     @Bean
     Queue enableJobReviewsQueue() {
-        return new Queue(ENABLE_JOB_REVIEWS_QUEUE, false);
-    }
-
-    @Bean
-    TopicExchange exchange() {
-        return new TopicExchange(FP_EXCHANGE_NAME);
+        return new Queue(properties.getQueues().getEnableJobReviewsQueue(), false);
     }
 
     @Bean
     Queue newReservationQueue() {
-        return new Queue(NEW_RESERVATION_QUEUE, false);
+        return new Queue(properties.getQueues().getNewReservationQueue(), false);
     }
 
     @Bean
     Queue reservationEditedQueue() {
-        return new Queue(RESERVATION_EDITED_QUEUE, false);
+        return new Queue(properties.getQueues().getReservationEditedQueue(), false);
     }
 
     @Bean
     Queue reservationAcceptedQueue() {
-        return new Queue(RESERVATION_ACCEPTED_QUEUE, false);
+        return new Queue(properties.getQueues().getReservationAcceptedQueue(), false);
     }
 
     @Bean
     Queue reservationRejectedQueue() {
-        return new Queue(RESERVATION_REJECTED_QUEUE, false);
+        return new Queue(properties.getQueues().getReservationRejectedQueue(), false);
+    }
+
+    @Bean
+    TopicExchange exchange() {
+        return new TopicExchange(properties.getQueues().getFpExchangeName());
     }
 
     @Bean
@@ -245,9 +240,9 @@ public class RabbitMQConfig {
 
     @Bean
     public ConnectionFactory connectionFactory() {
-        CachingConnectionFactory connectionFactory = new CachingConnectionFactory(rabbitmqHost);
-        connectionFactory.setUsername(username);
-        connectionFactory.setPassword(password);
+        CachingConnectionFactory connectionFactory = new CachingConnectionFactory(properties.getHost());
+        connectionFactory.setUsername(properties.getUsername());
+        connectionFactory.setPassword(properties.getPassword());
         return connectionFactory;
     }
 

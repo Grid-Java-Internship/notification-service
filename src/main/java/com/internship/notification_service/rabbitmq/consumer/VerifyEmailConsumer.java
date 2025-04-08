@@ -1,6 +1,5 @@
 package com.internship.notification_service.rabbitmq.consumer;
 
-import com.internship.notification_service.constants.Constants;
 import com.internship.notification_service.rabbitmq.communication.Message;
 import com.internship.notification_service.rabbitmq.communication.NotificationProcessor;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +14,7 @@ public class VerifyEmailConsumer {
 
     private final NotificationProcessor notificationProcessor;
 
-    @RabbitListener(queues = Constants.VERIFY_EMAIL_QUEUE)
+    @RabbitListener(queues = "${spring.rabbitmq.queues.verify-email-queue}")
     public void consumeMessage(Message message) {
 
         notificationProcessor.saveNotification(message);

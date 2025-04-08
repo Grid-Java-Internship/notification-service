@@ -1,6 +1,5 @@
 package com.internship.notification_service.rabbitmq.consumer;
 
-import com.internship.notification_service.constants.Constants;
 import com.internship.notification_service.rabbitmq.communication.Message;
 import com.internship.notification_service.rabbitmq.communication.NotificationProcessor;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +23,7 @@ public class ReservationMessageConsumer {
      *
      * @param message the message received from the queue
      */
-    @RabbitListener(queues = Constants.CANCEL_RESERVATION_QNAME)
+    @RabbitListener(queues = "${spring.rabbitmq.queues.cancel-reservation-qname}")
     public void consumeCancelReservationMessage(Message message) {
         notificationProcessor.saveNotification(message);
 
@@ -41,7 +40,7 @@ public class ReservationMessageConsumer {
      *
      * @param message the message received from the queue
      */
-    @RabbitListener(queues = Constants.NEW_RESERVATION_QUEUE)
+    @RabbitListener(queues = "${spring.rabbitmq.queues.new-reservation-queue}")
     public void consumeNewReservationMessage(Message message) {
         notificationProcessor.saveNotification(message);
 
@@ -58,7 +57,7 @@ public class ReservationMessageConsumer {
      *
      * @param message the message received from the queue
      */
-    @RabbitListener(queues = Constants.RESERVATION_EDITED_QUEUE)
+    @RabbitListener(queues = "${spring.rabbitmq.queues.reservation-edited-queue}")
     public void consumeEditReservationMessage(Message message) {
         notificationProcessor.saveNotification(message);
 
@@ -75,7 +74,7 @@ public class ReservationMessageConsumer {
      *
      * @param message the message received from the queue
      */
-    @RabbitListener(queues = Constants.RESERVATION_ACCEPTED_QUEUE)
+    @RabbitListener(queues = "${spring.rabbitmq.queues.reservation-accepted-queue}")
     public void consumeAcceptReservationMessage(Message message) {
         notificationProcessor.saveNotification(message);
 
@@ -92,7 +91,7 @@ public class ReservationMessageConsumer {
      *
      * @param message the message received from the queue
      */
-    @RabbitListener(queues = Constants.RESERVATION_REJECTED_QUEUE)
+    @RabbitListener(queues = "${spring.rabbitmq.queues.reservation-rejected-queue}")
     public void consumeRejectReservationMessage(Message message) {
         notificationProcessor.saveNotification(message);
 
