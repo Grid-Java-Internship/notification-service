@@ -14,4 +14,6 @@ public class Message {
     private String title;
     private String emailTo;
     private Long userId;
+    private Long reservationId;
+    private Long jobId;
 }

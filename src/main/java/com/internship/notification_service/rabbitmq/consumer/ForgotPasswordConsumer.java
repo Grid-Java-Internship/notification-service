@@ -1,6 +1,5 @@
 package com.internship.notification_service.rabbitmq.consumer;
 
-import com.internship.notification_service.constants.Constants;
 import com.internship.notification_service.mail.EmailService;
 import com.internship.notification_service.model.Notification;
 import com.internship.notification_service.rabbitmq.communication.Message;
@@ -9,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
-
 
 @RequiredArgsConstructor
 @Component
@@ -25,7 +23,7 @@ public class ForgotPasswordConsumer {
      *
      * @param message The message received from rabbitmq queue.
      */
-    @RabbitListener(queues = Constants.FP_QNAME)
+    @RabbitListener(queues = "${spring.rabbitmq.queues.fp-qname}")
     public void consumeMessage(Message message) {
 
         // TODO Make JWT utils

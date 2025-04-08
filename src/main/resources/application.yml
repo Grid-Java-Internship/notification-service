@@ -8,11 +8,6 @@ spring:
       host: mongodb
       port: 27017
       database: notifications
-  rabbitmq:
-    host: rabbitmq
-    port: 5672
-    username: guest
-    password: guest
   mail:
     host: mailsender
     port: 1025
@@ -20,6 +15,31 @@ spring:
     password: ${MAIL_PASS}
   config:
     import: file:env.properties
+  rabbitmq:
+    host: ${RABBITMQ_HOST:rabbitmq}
+    username: ${RABBITMQ_USERNAME:guest}
+    password: ${RABBITMQ_PASSWORD:guest}
+    port: 5672
+    queues:
+      fp-exchange-name: "notifications"
+      fp-qname: "forgotPasswordQueue"
+      cp-qname: "changePassword"
+      aa-qname: "activateAccount"
+      cancel-reservation-qname: "cancelReservationQueue"
+      delete-pending-user-queue: "deletePendingUserQueue"
+      delete-pending-balance-queue: "deletePendingBalanceQueue"
+      verify-email-queue: "verifyEmailQueue"
+      disable-job-queue: "disableJobQueue"
+      enable-job-queue: "enableJobQueue"
+      cancel-job-reservations-queue: "cancelJobReservationsQueue"
+      disable-job-reviews-queue: "disableJobReviewsQueue"
+      enable-job-reviews-queue: "enableJobReviewsQueue"
+      sm-qname: "sendMail"
+      new-reservation-queue: "newReservationQueue"
+      reservation-edited-queue: "reservationEditedQueue"
+      reservation-accepted-queue: "reservationAcceptedQueue"
+      reservation-rejected-queue: "reservationRejectedQueue"
+
 server:
   port: 8087
 logging:
