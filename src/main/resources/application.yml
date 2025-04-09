@@ -39,6 +39,8 @@ spring:
       reservation-edited-queue: "reservationEditedQueue"
       reservation-accepted-queue: "reservationAcceptedQueue"
       reservation-rejected-queue: "reservationRejectedQueue"
+      user-ban-queue: "userBanQueue"
+      user-unban-queue: "userUnbanQueue"
 
 server:
   port: 8087
