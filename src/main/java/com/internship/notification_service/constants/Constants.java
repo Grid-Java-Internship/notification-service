@@ -1,6 +1,7 @@
 package com.internship.notification_service.constants;
 
-public class Constants {
+public class
+Constants {
 
     private Constants() {}
 
@@ -31,5 +32,7 @@ public class Constants {
     public static final String ENABLE_JOB_REVIEWS_QUEUE = "enableJobReviewsQueue";
 
     public static final String SM_NAME = "sendMail";
+
+    public static final String HOLD_TRANSACTION_QUEUE = "holdTransactionQueue";
 
 }

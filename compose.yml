@@ -1,11 +1,4 @@
 services:
-  mongodb:
-    image: "mongodb/mongodb-community-server:latest"
-    ports:
-      - "27017:27017"
-    container_name: "notif-service-mongodb"
-    networks:
-      - global-network
   notification-service:
     build:
       context: .
@@ -13,30 +6,8 @@ services:
     ports:
       - "8087:8087"
     container_name: "not-service"
-    depends_on:
-      - rabbitmq
-      - mailsender
     networks:
       - global-network
-  rabbitmq:
-    image: "rabbitmq:4.0-management"
-    container_name: "rabbitmq"
-    ports:
-      - "5672:5672"
-      - "15672:15672"
-    networks:
-      - global-network
-  mailsender:
-    image: "axllent/mailpit"
-    container_name: "mailpit"
-    restart: unless-stopped
-    ports:
-      - "8025:8025"
-      - "1025:1025"
-    networks:
-      - global-network
-
-
 networks:
   global-network:
     name: global-network
