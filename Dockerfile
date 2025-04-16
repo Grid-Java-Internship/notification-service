@@ -4,6 +4,17 @@ FROM maven:3.8-openjdk-17 AS build
 # wordkir of container
 WORKDIR /app
 
+# Build arguments for GitHub credentials
+ARG GITHUB_USERNAME
+ARG GITHUB_TOKEN
+
+# Set environment variables for Maven to use
+ENV GITHUB_USERNAME=${GITHUB_USERNAME}
+ENV GITHUB_TOKEN=${GITHUB_TOKEN}
+
+# Copy custom Maven settings
+COPY maven-settings.xml /root/.m2/settings.xml
+
 # copy all project files to container
 
 COPY pom.xml .
@@ -27,6 +38,7 @@ WORKDIR /home/spring/app
 EXPOSE 8087
 
 COPY env.properties .
+COPY .env .
 
 COPY --chown=spring:spring --from=build /app/target/*.jar app.jar
 

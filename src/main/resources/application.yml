@@ -56,3 +56,19 @@ management:
 scheduler:
   failed_notifications:
     time: 60000
+
+microservicesUrls:
+  auth-service: ${AUTH_SERVICE_URL:http://auth-service:8080}
+
+security:
+  paths:
+    permitted-requests-for-all-users:
+      - method: GET
+        pattern: "/actuator/**"
+      - method: GET
+        pattern: "/swagger-ui/**"
+      - method: GET
+        pattern: "/v3/api-docs/**"
+    permitted-requests-for-users-or-admin-or-super-admin:
+      - method: GET
+        pattern: "/v1/notifications/{id}"
