@@ -2,8 +2,10 @@ package com.internship.notification_service.exception;
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -11,87 +13,71 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.util.List;
 
+@Slf4j
 @ControllerAdvice
 public class NotificationExceptionHandler {
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ExceptionResponse> handleException(Exception ex) {
-        String errorMessage = "Request failed because of an internal problem. " +
-                "Please contact support or your administrator. Error: " + ex.getMessage();
+    private ResponseEntity<ExceptionResponse> buildErrorResponse(
+            HttpStatus httpStatus,
+            List<String> messages
+    ) {
+        messages.forEach(log::error);
 
         ExceptionResponse errorResponse = ExceptionResponse.builder()
-                .statusCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
-                .messages(List.of(errorMessage))
+                .statusCode(httpStatus.value())
+                .messages(messages)
                 .build();
 
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+        return ResponseEntity.status(httpStatus).body(errorResponse);
     }
 
-    @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<ExceptionResponse> handleConstraintViolationException(ConstraintViolationException ex) {
-        List<String> errorMessages = ex.getConstraintViolations().stream()
-                .map(ConstraintViolation::getMessage)
-                .toList();
+    @ExceptionHandler({
+            ConstraintViolationException.class,
+            MethodArgumentNotValidException.class,
+            HttpMessageNotReadableException.class
+    })
+    public ResponseEntity<ExceptionResponse> handleValidationExceptions(Exception ex) {
 
-        ExceptionResponse errorResponse = ExceptionResponse.builder()
-                .statusCode(HttpStatus.BAD_REQUEST.value())
-                .messages(errorMessages)
-                .build();
+        List<String> errorMessages;
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
-    }
+        if (ex instanceof ConstraintViolationException constraintViolationException) {
+            errorMessages = constraintViolationException.getConstraintViolations().stream()
+                    .map(ConstraintViolation::getMessage)
+                    .toList();
+        }
+        else if (ex instanceof MethodArgumentNotValidException methodArgumentNotValidException) {
+            errorMessages = methodArgumentNotValidException.getBindingResult().getFieldErrors().stream()
+                    .map(FieldError::getDefaultMessage)
+                    .toList();
+        }
+        else { // HttpMessageNotReadableException
+            errorMessages = List.of(ex.getMessage());
+        }
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ExceptionResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
-        List<String> errorMessages = ex.getBindingResult().getFieldErrors().stream()
-                .map(FieldError::getDefaultMessage)
-                .toList();
-
-        ExceptionResponse errorResponse = ExceptionResponse.builder()
-                .statusCode(HttpStatus.BAD_REQUEST.value())
-                .messages(errorMessages)
-                .build();
-
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+        return buildErrorResponse(HttpStatus.BAD_REQUEST, errorMessages);
     }
 
     @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<ExceptionResponse> handleResourceNotFound(NotFoundException ex){
-        String errorMessage = ex.getMessage();
-
-        ExceptionResponse errorResponse = ExceptionResponse
-                .builder()
-                .statusCode(HttpStatus.NOT_FOUND.value())
-                .messages(List.of(errorMessage))
-                .build();
-
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+    public ResponseEntity<ExceptionResponse> handleNotFoundException(
+            NotFoundException ex
+    ) {
+        return buildErrorResponse(HttpStatus.NOT_FOUND, List.of(ex.getMessage()));
     }
 
     @ExceptionHandler(UnknownUserIdException.class)
-    public ResponseEntity<ExceptionResponse> handleUnknownUserId(UnknownUserIdException ex){
-        String errorMessage = ex.getMessage();
-
-        ExceptionResponse errorResponse = ExceptionResponse
-                .builder()
-                .statusCode(HttpStatus.FORBIDDEN.value())
-                .messages(List.of(errorMessage))
-                .build();
-
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorResponse);
+    public ResponseEntity<ExceptionResponse> handleUnknownUserId(
+            UnknownUserIdException ex
+    ){
+        return buildErrorResponse(HttpStatus.FORBIDDEN, List.of(ex.getMessage()));
     }
 
-    @ExceptionHandler(NoNotificationsOnResource.class)
-    public ResponseEntity<ExceptionResponse> handleUnknownUserId(NoNotificationsOnResource ex){
-        String errorMessage = ex.getMessage();
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ExceptionResponse> handleException(
+            Exception ex
+    ) {
+        String errorMessage = "Request failed because of an internal problem. " +
+                "Please contact support or your administrator. Error: " + ex.getMessage();
 
-        ExceptionResponse errorResponse = ExceptionResponse
-                .builder()
-                .statusCode(HttpStatus.FORBIDDEN.value())
-                .messages(List.of(errorMessage))
-                .build();
-
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(errorResponse);
+        return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, List.of(errorMessage));
     }
-
 }

@@ -1,7 +1,6 @@
 package com.internship.notification_service.service.impl;
 
 import com.internship.notification_service.dto.NotificationMessageDto;
-import com.internship.notification_service.exception.NoNotificationsOnResource;
 import com.internship.notification_service.mapper.NotificationMapper;
 import com.internship.notification_service.model.Notification;
 import com.internship.notification_service.repository.NotificationRepository;
@@ -30,9 +29,6 @@ public class NotificationServiceImpl implements NotificationService {
     public List<NotificationMessageDto> getAllNotifications(Long userId) {
 
         List<Notification> notifications = notificationRepository.findAllByUserId(userId);
-
-        if(notifications.isEmpty())
-            throw new NoNotificationsOnResource("No notifications found for user with id: " + userId);
 
         return notifications
                 .stream().map(notificationMapper::toDto).toList();
