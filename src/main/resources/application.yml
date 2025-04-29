@@ -41,6 +41,10 @@ spring:
       reservation-rejected-queue: "reservationRejectedQueue"
       user-ban-queue: "userBanQueue"
       user-unban-queue: "userUnbanQueue"
+      user-ban-appeal-accept-queue: "acceptBanAppealQueue"
+      user-ban-appeal-reject-queue: "rejectBanAppealQueue"
+      job-suspend-queue: "jobSuspendQueue"
+      job-unsuspend-queue: "jobUnsuspendQueue"
 
 server:
   port: 8087

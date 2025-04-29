@@ -40,5 +40,9 @@ public class RabbitMQProperties {
         private String reservationRejectedQueue;
         private String userBanQueue;
         private String userUnbanQueue;
+        private String userBanAppealAcceptQueue;
+        private String userBanAppealRejectQueue;
+        private String jobSuspendQueue;
+        private String jobUnsuspendQueue;
     }
 }

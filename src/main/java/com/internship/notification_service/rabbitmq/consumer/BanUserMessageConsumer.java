@@ -28,4 +28,20 @@ public class BanUserMessageConsumer {
                 message,
                 "Processing notification about user unban.");
     }
+
+    @RabbitListener(queues = "${spring.rabbitmq.queues.user-ban-appeal-accept-queue}")
+    public void consumeAcceptedUserBanAppealMessage(Message message) {
+        notificationProcessor.saveNotification(message);
+        notificationProcessor.processNotification(
+                message,
+                "Processing notification about accepted user ban appeal.");
+    }
+
+    @RabbitListener(queues = "${spring.rabbitmq.queues.user-ban-appeal-reject-queue}")
+    public void consumeRejectedUserBanAppealMessage(Message message) {
+        notificationProcessor.saveNotification(message);
+        notificationProcessor.processNotification(
+                message,
+                "Processing notification about rejected user ban appeal.");
+    }
 }
