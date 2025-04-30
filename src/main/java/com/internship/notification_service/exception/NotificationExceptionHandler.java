@@ -10,6 +10,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.context.request.async.AsyncRequestTimeoutException;
 
 import java.util.List;
 
@@ -71,13 +72,22 @@ public class NotificationExceptionHandler {
         return buildErrorResponse(HttpStatus.FORBIDDEN, List.of(ex.getMessage()));
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ExceptionResponse> handleException(
-            Exception ex
-    ) {
-        String errorMessage = "Request failed because of an internal problem. " +
-                "Please contact support or your administrator. Error: " + ex.getMessage();
+//    @ExceptionHandler(Exception.class)
+//    public ResponseEntity<ExceptionResponse> handleException(
+//            Exception ex
+//    ) {
+//        String errorMessage = "Request failed because of an internal problem. " +
+//                "Please contact support or your administrator. Error: " + ex.getMessage();
+//
+//        return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, List.of(errorMessage));
+//    }
 
-        return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, List.of(errorMessage));
+    @ExceptionHandler(AsyncRequestTimeoutException.class)
+    public void handleAsyncTimeout() {
+
+        log.warn("Async request timed out!!");
+
     }
+
+
 }
