@@ -42,6 +42,8 @@ spring:
       user-ban-queue: "userBanQueue"
       user-unban-queue: "userUnbanQueue"
       warn-user-queue: "warnUserQueue"
+      notify-admin-queue: "notifyAdminQueue"
+ADMIN-MAIL: ${ADMIN_MAIL}
 
 server:
   port: 8087

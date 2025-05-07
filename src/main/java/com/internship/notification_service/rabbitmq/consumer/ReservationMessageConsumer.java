@@ -5,6 +5,7 @@ import com.internship.notification_service.rabbitmq.communication.NotificationPr
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
@@ -13,6 +14,8 @@ import org.springframework.stereotype.Component;
 public class ReservationMessageConsumer {
 
     private final NotificationProcessor notificationProcessor;
+    @Value("${ADMIN-MAIL}")
+    private final String adminMail;
 
     /**
      * Listens to {@code cancelReservation} queue and processes the notifications.
@@ -94,6 +97,15 @@ public class ReservationMessageConsumer {
     @RabbitListener(queues = "${spring.rabbitmq.queues.reservation-rejected-queue}")
     public void consumeRejectReservationMessage(Message message) {
         notificationProcessor.saveNotification(message);
+
+        notificationProcessor.processNotification(message,
+                "Processing notification about rejected reservation.");
+    }
+
+    @RabbitListener(queues = "${spring.rabbitmq.queues.notify-admin-queue}")
+    public void notifyAdmin(Message message) {
+        notificationProcessor.saveNotification(message);
+        message.setEmailTo(adminMail);
 
         notificationProcessor.processNotification(message,
                 "Processing notification about rejected reservation.");
