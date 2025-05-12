@@ -43,6 +43,7 @@ spring:
       user-unban-queue: "userUnbanQueue"
       warn-user-queue: "warnUserQueue"
       notify-admin-queue: "notifyAdminQueue"
+      hold-transaction-queue: "holdTransactionQueue"
 ADMIN-MAIL: ${ADMIN_MAIL}
 
 server:
