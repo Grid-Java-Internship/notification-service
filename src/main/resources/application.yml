@@ -73,3 +73,6 @@ security:
     permitted-requests-for-users-or-admin-or-super-admin:
       - method: GET
         pattern: "/v1/notifications/{id}"
+      - method: GET
+        pattern: "/v1/pushNotifications/**"
+

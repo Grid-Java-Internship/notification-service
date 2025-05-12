@@ -2,6 +2,7 @@ package com.internship.notification_service.rabbitmq.consumer;
 
 import com.internship.notification_service.rabbitmq.communication.Message;
 import com.internship.notification_service.rabbitmq.communication.NotificationProcessor;
+import com.internship.notification_service.service.SseService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -13,6 +14,8 @@ import org.springframework.stereotype.Component;
 public class ReservationMessageConsumer {
 
     private final NotificationProcessor notificationProcessor;
+    private final SseService sseService;
+
 
     /**
      * Listens to {@code cancelReservation} queue and processes the notifications.
@@ -80,6 +83,11 @@ public class ReservationMessageConsumer {
 
         notificationProcessor.processNotification(message,
                 "Processing notification about accepted reservation.");
+
+        log.info("Received message for SSE push notification (Reservation Accepted) for user: {}", message.getUserId());
+
+
+        sseService.sendNotificationToUser(String.valueOf(message.getUserId()), message);
     }
 
     /**
