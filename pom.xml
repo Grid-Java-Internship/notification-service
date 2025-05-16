@@ -130,7 +130,7 @@
 		<dependency>
 			<groupId>com.internship</groupId>
 			<artifactId>authentication_library</artifactId>
-			<version>0.0.9-SNAPSHOT</version>
+			<version>0.2.8-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 

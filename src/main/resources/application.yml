@@ -65,6 +65,7 @@ microservicesUrls:
   auth-service: ${AUTH_SERVICE_URL:http://auth-service:8080}
 
 security:
+  api-key: ${BASE_API_KEY}
   paths:
     permitted-requests-for-all-users:
       - method: GET
