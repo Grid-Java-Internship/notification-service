@@ -19,9 +19,6 @@ public class EmailServiceImpl implements EmailService {
     @Value("${MAIL_USERNAME}")
     private final String username;
 
-    @Value("${MAIL_PASS}")
-    private final String password;
-
     @Override
     public String sendSimpleMail(String to, String subject, String content) {
 
