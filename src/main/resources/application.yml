@@ -78,4 +78,3 @@ security:
         pattern: "/v1/notifications/{id}"
       - method: GET
         pattern: "/v1/pushNotifications/**"
-
