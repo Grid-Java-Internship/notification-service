@@ -9,6 +9,8 @@ services:
     ports:
       - "8087:8087"
     container_name: "not-service"
+    env_file:
+      - .env
     networks:
       - global-network
 networks:
