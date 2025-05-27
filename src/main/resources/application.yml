@@ -13,8 +13,6 @@ spring:
     port: 1025
     username: ${MAIL_USERNAME}
     password: ${MAIL_PASS}
-  config:
-    import: file:env.properties
   rabbitmq:
     host: ${RABBITMQ_HOST:rabbitmq}
     username: ${RABBITMQ_USERNAME:guest}
