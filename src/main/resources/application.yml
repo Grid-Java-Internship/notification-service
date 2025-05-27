@@ -5,9 +5,9 @@ spring:
     name: ${SPRING_APP_NAME:notification-service}
   data:
     mongodb:
-      host: mongodb
-      port: 27017
-      database: notifications
+      host: ${MONGODB_HOST:mongodb}
+      port: ${MONGODB_PORT:27017}
+      database: ${MONGODB_DATABASE:notifications}
   mail:
     host: mailsender
     port: 1025

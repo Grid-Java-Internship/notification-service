@@ -33,6 +33,21 @@ spec:
                 secretKeyRef:
                   name: rabbitmq-secret
                   key: RABBITMQ_PASSWORD
+            - name: MONGODB_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-secret
+                  key: MONGODB_HOST
+            - name: MONGODB_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-secret
+                  key: MONGODB_PORT
+            - name: MONGODB_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-secret
+                  key: MONGODB_NOTIF
             - name: MAIL_USERNAME
               valueFrom:
                 secretKeyRef:
