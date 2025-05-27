@@ -61,9 +61,6 @@ scheduler:
   failed_notifications:
     time: 60000
 
-microservicesUrls:
-  auth-service: ${AUTH_SERVICE_URL:http://auth-service:8080}
-
 security:
   api-key: ${BASE_API_KEY}
   paths:
