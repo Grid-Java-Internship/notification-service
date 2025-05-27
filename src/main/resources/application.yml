@@ -59,6 +59,15 @@ scheduler:
   failed_notifications:
     time: 60000
 
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: ${EUREKA_SERVICE_URL:http://eureka-naming-server:8761/eureka}
+
 security:
   api-key: ${BASE_API_KEY}
   paths:
