@@ -70,6 +70,10 @@ eureka:
 
 security:
   api-key: ${BASE_API_KEY}
+  feign:
+    auth-service:
+      api-key: "${AUTH_API_KEY}"
+      enabled: true
   paths:
     permitted-requests-for-all-users:
       - method: GET
